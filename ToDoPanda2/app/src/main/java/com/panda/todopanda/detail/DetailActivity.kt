@@ -48,7 +48,7 @@ class DetailActivity : ComponentActivity() {
         }
         if (intent?.action == Intent.ACTION_SEND && intent.type == "text/plain") {
             val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
-            
+
         }
     }
 

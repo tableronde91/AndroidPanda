@@ -1,5 +1,5 @@
 package com.panda.todopanda.list
-
+import com.panda.todopanda.list.TasksListViewModel
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -8,11 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.panda.todopanda.R
+import com.panda.todopanda.data.Api
+import com.panda.todopanda.data.UserWebService
 import com.panda.todopanda.detail.DetailActivity
+import kotlinx.coroutines.launch
+import androidx.lifecycle.ViewModel
 import java.util.UUID
 
 class TaskListFragment : Fragment() {
@@ -57,6 +64,35 @@ class TaskListFragment : Fragment() {
             }
         }
     }
+    private val viewModel: TasksListViewModel by viewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        lifecycleScope.launch {
+            viewModel.tasksStateFlow.collect { newList ->
+
+                adapter.currentList = newList
+                adapter.notifyDataSetChanged()
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+
+        lifecycleScope.launch {
+            try {
+                val response = Api.userWebService.fetchUser()
+                val user = response.body()
+
+                if (user != null) {
+
+                    view?.findViewById<TextView>(R.id.userTextView)?.text = user.name
+                }
+            } catch (e: Exception) {
+
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_task_list, container, false)
@@ -93,4 +129,5 @@ class TaskListFragment : Fragment() {
         super.onDestroyView()
         taskList = emptyList()
     }
+
 }

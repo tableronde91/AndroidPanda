@@ -28,6 +28,7 @@ class TaskListAdapter(private val listener: TaskListListener) : RecyclerView.Ada
         holder.editButton.setOnClickListener { listener.onClickEdit(task) }
         holder.bind(task)
     }
+
     fun refreshAdapter(newList: List<Task>) {
         currentList = newList
 
