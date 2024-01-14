@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.panda.todopanda.R
@@ -36,8 +37,8 @@ class TaskListAdapter(private val listener: TaskListListener) : RecyclerView.Ada
     inner class TaskViewHolder(itemView: View, private val listener: TaskListListener) : RecyclerView.ViewHolder(itemView) {
         private val titleView: TextView = itemView.findViewById(R.id.task_title)
         private val descriptionView: TextView = itemView.findViewById(R.id.task_description)
-        val deleteButton: Button = itemView.findViewById(R.id.delete_button)
-        val editButton: Button = itemView.findViewById(R.id.floatingActionButton)
+        val deleteButton: ImageButton = itemView.findViewById(R.id.delete_button)
+        val editButton: ImageButton = itemView.findViewById(R.id.edit_button)
         init {
             deleteButton.setOnClickListener {
 

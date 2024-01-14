@@ -1,6 +1,7 @@
 package com.panda.todopanda.data
 
-import okhttp3.internal.concurrent.Task
+
+import com.panda.todopanda.list.Task
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -11,6 +12,7 @@ import retrofit2.http.Path
 interface TasksWebService {
     @GET("/rest/v2/tasks/")
     suspend fun fetchTasks(): Response<List<Task>>
+
     @POST("/rest/v2/tasks/")
     suspend fun create(@Body task: Task): Response<Task>
 

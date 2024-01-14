@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -20,6 +21,9 @@ import com.panda.todopanda.data.UserWebService
 import com.panda.todopanda.detail.DetailActivity
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.UUID
 
 class TaskListFragment : Fragment() {
@@ -78,7 +82,11 @@ class TaskListFragment : Fragment() {
     }
     override fun onResume() {
         super.onResume()
-
+        val imageView = view?.findViewById<ImageView>(R.id.userAvatarImageView)
+        imageView?.load("https://goo.gl/gEgYUd") {
+            crossfade(true)
+            transformations(CircleCropTransformation())
+        }
         lifecycleScope.launch {
             try {
                 val response = Api.userWebService.fetchUser()
@@ -115,7 +123,7 @@ class TaskListFragment : Fragment() {
             editTask.launch(intent)
         }
 
-        val addButton = view.findViewById<Button>(R.id.floatingActionButton)
+        val addButton = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         addButton.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
             createTask.launch(intent)
